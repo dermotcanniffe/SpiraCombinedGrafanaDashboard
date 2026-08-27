@@ -1100,7 +1100,7 @@
             "value": "inflectra"
           },
           "query": "inflectra",
-          "hide": 0,
+          "hide": "dontHide",
           "multi": false,
           "includeAll": false
         }
@@ -1116,7 +1116,7 @@
             "value": "spira"
           },
           "query": "spira",
-          "hide": 0,
+          "hide": "dontHide",
           "multi": false,
           "includeAll": false
         }
@@ -1132,7 +1132,7 @@
             "value": "Dublin"
           },
           "query": "Dublin",
-          "hide": 0,
+          "hide": "dontHide",
           "multi": false,
           "includeAll": false
         }
@@ -1148,7 +1148,7 @@
             "value": ""
           },
           "query": "",
-          "hide": 2,
+          "hide": "hideVariable",
           "multi": false,
           "includeAll": false
         }
