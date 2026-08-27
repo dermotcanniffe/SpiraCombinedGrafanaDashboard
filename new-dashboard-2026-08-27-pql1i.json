@@ -597,8 +597,8 @@
                       "kind": "DataQuery",
                       "spec": {
                         "queryType": "Commits",
-                        "owner": "${github_owner}",
-                        "repository": "${github_repo}",
+                        "owner": "inflectra",
+                        "repository": "spira",
                         "timeField": "Date"
                       },
                       "version": "v0"
@@ -670,8 +670,8 @@
                       "kind": "DataQuery",
                       "spec": {
                         "queryType": "Pull_Requests",
-                        "owner": "${github_owner}",
-                        "repository": "${github_repo}",
+                        "owner": "inflectra",
+                        "repository": "spira",
                         "timeField": "CreatedAt"
                       },
                       "version": "v0"
@@ -758,8 +758,8 @@
                       "kind": "DataQuery",
                       "spec": {
                         "queryType": "Issues",
-                        "owner": "${github_owner}",
-                        "repository": "${github_repo}",
+                        "owner": "inflectra",
+                        "repository": "spira",
                         "timeField": "CreatedAt"
                       },
                       "version": "v0"
@@ -859,7 +859,7 @@
                         "type": "json",
                         "parser": "backend",
                         "source": "url",
-                        "url": "https://api.openweathermap.org/data/2.5/weather?q=${weather_city}&units=metric&appid=${weather_api_key}",
+                        "url": "https://api.openweathermap.org/data/2.5/weather?q=Dublin&units=metric&appid=YOUR_API_KEY",
                         "format": "table",
                         "columns": [
                           { "selector": "main.temp", "text": "Temperature (°C)", "type": "number" },
@@ -1088,71 +1088,6 @@
       "to": "now"
     },
     "title": "Spira Combined Lifecycle Dashboard",
-    "variables": [
-      {
-        "kind": "CustomVariable",
-        "spec": {
-          "name": "github_owner",
-          "label": "GitHub Owner",
-          "description": "GitHub repository owner/organization",
-          "current": {
-            "text": "inflectra",
-            "value": "inflectra"
-          },
-          "query": "inflectra",
-          "hide": "dontHide",
-          "multi": false,
-          "includeAll": false
-        }
-      },
-      {
-        "kind": "CustomVariable",
-        "spec": {
-          "name": "github_repo",
-          "label": "GitHub Repo",
-          "description": "GitHub repository name",
-          "current": {
-            "text": "spira",
-            "value": "spira"
-          },
-          "query": "spira",
-          "hide": "dontHide",
-          "multi": false,
-          "includeAll": false
-        }
-      },
-      {
-        "kind": "CustomVariable",
-        "spec": {
-          "name": "weather_city",
-          "label": "Weather City",
-          "description": "City for weather data",
-          "current": {
-            "text": "Dublin",
-            "value": "Dublin"
-          },
-          "query": "Dublin",
-          "hide": "dontHide",
-          "multi": false,
-          "includeAll": false
-        }
-      },
-      {
-        "kind": "CustomVariable",
-        "spec": {
-          "name": "weather_api_key",
-          "label": "Weather API Key",
-          "description": "OpenWeatherMap API key",
-          "current": {
-            "text": "",
-            "value": ""
-          },
-          "query": "",
-          "hide": "hideVariable",
-          "multi": false,
-          "includeAll": false
-        }
-      }
-    ]
+    "variables": []
   }
 }
