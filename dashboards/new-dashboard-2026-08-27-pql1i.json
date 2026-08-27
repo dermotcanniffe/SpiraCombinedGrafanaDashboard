@@ -84,7 +84,7 @@
                         "type": "json",
                         "parser": "backend",
                         "source": "url",
-                        "url": "Requirements?$select=RequirementId,RequirementStatusId&$filter=IsDeleted eq false",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Requirements",
                         "format": "table",
                         "columns": [
                           { "selector": "RequirementId", "text": "RequirementId", "type": "number" },
@@ -188,7 +188,7 @@
                         "type": "json",
                         "parser": "backend",
                         "source": "url",
-                        "url": "TestRuns?$select=TestRunId,ExecutionStatusId",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/TestRuns",
                         "format": "table",
                         "columns": [
                           { "selector": "TestRunId", "text": "TestRunId", "type": "number" },
@@ -305,7 +305,7 @@
                         "type": "json",
                         "parser": "backend",
                         "source": "url",
-                        "url": "Incidents?$select=IncidentId,Name,IncidentStatusId,CreationDate,ClosedDate&$filter=IncidentStatusId eq 1 or IncidentStatusId eq 2",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Incidents",
                         "format": "timeseries",
                         "columns": [
                           { "selector": "IncidentId", "text": "IncidentId", "type": "number" },
@@ -333,7 +333,7 @@
                         "type": "json",
                         "parser": "backend",
                         "source": "url",
-                        "url": "Incidents?$select=IncidentId,Name,IncidentStatusId,ClosedDate&$filter=IncidentStatusId eq 5 or IncidentStatusId eq 6",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Incidents",
                         "format": "timeseries",
                         "columns": [
                           { "selector": "IncidentId", "text": "IncidentId", "type": "number" },
@@ -426,7 +426,7 @@
                         "type": "json",
                         "parser": "backend",
                         "source": "url",
-                        "url": "Releases?$select=ReleaseId,Name,ReleaseStatusId&$filter=ReleaseStatusId eq 2",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Releases",
                         "format": "table",
                         "columns": [
                           { "selector": "ReleaseId", "text": "ReleaseId", "type": "number" },
@@ -454,7 +454,7 @@
                         "type": "json",
                         "parser": "backend",
                         "source": "url",
-                        "url": "Requirements?$select=RequirementId,ReleaseId,RequirementStatusId&$filter=IsDeleted eq false",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Requirements",
                         "format": "table",
                         "columns": [
                           { "selector": "RequirementId", "text": "RequirementId", "type": "number" },
@@ -859,7 +859,7 @@
                         "type": "json",
                         "parser": "backend",
                         "source": "url",
-                        "url": "https://api.openweathermap.org/data/2.5/weather?q=Dublin&units=metric&appid=YOUR_API_KEY",
+                        "url": "https://api.openweathermap.org/data/2.5/weather?q=Dublin&units=metric",
                         "format": "table",
                         "columns": [
                           { "selector": "main.temp", "text": "Temperature (°C)", "type": "number" },
