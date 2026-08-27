@@ -1,0 +1,140 @@
+{
+  "name": "Requirements Status",
+  "type": "piechart",
+  "title": "Requirements Status",
+  "description": "Breakdown of requirements by status (Requested, In Progress, Developed, Tested)",
+  "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "Spira-OData"
+  },
+  "targets": [
+    {
+      "refId": "A",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "Spira-OData"
+      },
+      "type": "json",
+      "parser": "backend",
+      "source": "url",
+      "url": "Requirements?$select=RequirementId,RequirementStatusId&$filter=IsDeleted eq false",
+      "format": "table",
+      "columns": [
+        { "selector": "RequirementId", "text": "RequirementId", "type": "number" },
+        { "selector": "RequirementStatusId", "text": "RequirementStatusId", "type": "number" }
+      ]
+    }
+  ],
+  "transformations": [
+    {
+      "id": "groupBy",
+      "options": {
+        "fields": {
+          "RequirementStatusId": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "RequirementId": {
+            "aggregations": ["count"],
+            "operation": "aggregate"
+          }
+        }
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "color": {
+        "mode": "palette-classic"
+      },
+      "noValue": "No data"
+    },
+    "overrides": [
+      {
+        "matcher": {
+          "id": "byValue",
+          "options": {
+            "op": "eq",
+            "value": 1
+          }
+        },
+        "properties": [
+          {
+            "id": "displayName",
+            "value": "Requested"
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "id": "byValue",
+          "options": {
+            "op": "eq",
+            "value": 2
+          }
+        },
+        "properties": [
+          {
+            "id": "displayName",
+            "value": "In Progress"
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "id": "byValue",
+          "options": {
+            "op": "eq",
+            "value": 5
+          }
+        },
+        "properties": [
+          {
+            "id": "displayName",
+            "value": "Developed"
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "id": "byValue",
+          "options": {
+            "op": "eq",
+            "value": 7
+          }
+        },
+        "properties": [
+          {
+            "id": "displayName",
+            "value": "Tested"
+          }
+        ]
+      }
+    ]
+  },
+  "options": {
+    "reduceOptions": {
+      "calcs": ["lastNotNull"],
+      "fields": "",
+      "values": true
+    },
+    "pieType": "pie",
+    "tooltip": {
+      "mode": "single",
+      "sort": "none"
+    },
+    "legend": {
+      "displayMode": "list",
+      "placement": "right",
+      "showLegend": true
+    }
+  },
+  "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 1
+  },
+  "noDataMessage": "No requirements data available",
+  "pluginVersion": "11.0.0"
+}

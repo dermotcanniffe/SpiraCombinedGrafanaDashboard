@@ -1,0 +1,149 @@
+{
+  "name": "Incident Trend",
+  "type": "timeseries",
+  "title": "Incident Trend",
+  "description": "Open vs closed incident counts over the most recent 90 days, plotted on a time-series axis",
+  "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "Spira-OData"
+  },
+  "targets": [
+    {
+      "refId": "A",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "Spira-OData"
+      },
+      "type": "json",
+      "parser": "backend",
+      "source": "url",
+      "url": "Incidents?$select=IncidentId,Name,IncidentStatusId,CreationDate,ClosedDate&$filter=IncidentStatusId eq 1 or IncidentStatusId eq 2",
+      "format": "timeseries",
+      "columns": [
+        { "selector": "IncidentId", "text": "IncidentId", "type": "number" },
+        { "selector": "Name", "text": "Name", "type": "string" },
+        { "selector": "IncidentStatusId", "text": "IncidentStatusId", "type": "number" },
+        { "selector": "CreationDate", "text": "CreationDate", "type": "timestamp" }
+      ],
+      "alias": "Open"
+    },
+    {
+      "refId": "B",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "Spira-OData"
+      },
+      "type": "json",
+      "parser": "backend",
+      "source": "url",
+      "url": "Incidents?$select=IncidentId,Name,IncidentStatusId,ClosedDate&$filter=IncidentStatusId eq 5 or IncidentStatusId eq 6",
+      "format": "timeseries",
+      "columns": [
+        { "selector": "IncidentId", "text": "IncidentId", "type": "number" },
+        { "selector": "Name", "text": "Name", "type": "string" },
+        { "selector": "IncidentStatusId", "text": "IncidentStatusId", "type": "number" },
+        { "selector": "ClosedDate", "text": "ClosedDate", "type": "timestamp" }
+      ],
+      "alias": "Closed"
+    }
+  ],
+  "transformations": [
+    {
+      "id": "groupBy",
+      "options": {
+        "fields": {
+          "CreationDate": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "IncidentId": {
+            "aggregations": ["count"],
+            "operation": "aggregate"
+          }
+        }
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "color": {
+        "mode": "palette-classic"
+      },
+      "custom": {
+        "axisBorderShow": false,
+        "axisCenteredZero": false,
+        "axisLabel": "Count",
+        "axisPlacement": "auto",
+        "barAlignment": 0,
+        "drawStyle": "line",
+        "fillOpacity": 20,
+        "gradientMode": "none",
+        "lineInterpolation": "smooth",
+        "lineWidth": 2,
+        "pointSize": 5,
+        "showPoints": "auto",
+        "spanNulls": false,
+        "stacking": {
+          "group": "A",
+          "mode": "none"
+        }
+      },
+      "noValue": "No data"
+    },
+    "overrides": [
+      {
+        "matcher": {
+          "id": "byName",
+          "options": "Open"
+        },
+        "properties": [
+          {
+            "id": "color",
+            "value": {
+              "fixedColor": "orange",
+              "mode": "fixed"
+            }
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "id": "byName",
+          "options": "Closed"
+        },
+        "properties": [
+          {
+            "id": "color",
+            "value": {
+              "fixedColor": "green",
+              "mode": "fixed"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "options": {
+    "tooltip": {
+      "mode": "multi",
+      "sort": "none"
+    },
+    "legend": {
+      "displayMode": "list",
+      "placement": "bottom",
+      "showLegend": true
+    }
+  },
+  "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 1
+  },
+  "timeRange": {
+    "from": "now-90d",
+    "to": "now"
+  },
+  "noDataMessage": "No incident data available",
+  "pluginVersion": "11.0.0"
+}

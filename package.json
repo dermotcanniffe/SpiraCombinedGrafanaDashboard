@@ -1,0 +1,15 @@
+{
+  "name": "spira-combined-grafana-dashboard",
+  "version": "1.0.0",
+  "description": "Grafana dashboard-as-code for Spira OData, GitHub, and Weather data sources",
+  "private": true,
+  "scripts": {
+    "test": "jest --testPathPattern=tests/structural",
+    "validate": "jest --testPathPattern=tests/schema",
+    "test:all": "jest"
+  },
+  "devDependencies": {
+    "ajv": "^8.20.0",
+    "jest": "^29.7.0"
+  }
+}

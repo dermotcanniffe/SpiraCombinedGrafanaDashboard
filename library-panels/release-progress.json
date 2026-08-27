@@ -1,0 +1,130 @@
+{
+  "name": "Release Progress",
+  "type": "bargauge",
+  "title": "Release Progress",
+  "description": "Percentage of requirements in completed status per active release",
+  "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "Spira-OData"
+  },
+  "targets": [
+    {
+      "refId": "A",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "Spira-OData"
+      },
+      "type": "json",
+      "parser": "backend",
+      "source": "url",
+      "url": "Releases?$select=ReleaseId,Name,ReleaseStatusId&$filter=ReleaseStatusId eq 2",
+      "format": "table",
+      "columns": [
+        { "selector": "ReleaseId", "text": "ReleaseId", "type": "number" },
+        { "selector": "Name", "text": "Release", "type": "string" },
+        { "selector": "ReleaseStatusId", "text": "ReleaseStatusId", "type": "number" }
+      ]
+    },
+    {
+      "refId": "B",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "Spira-OData"
+      },
+      "type": "json",
+      "parser": "backend",
+      "source": "url",
+      "url": "Requirements?$select=RequirementId,ReleaseId,RequirementStatusId&$filter=IsDeleted eq false",
+      "format": "table",
+      "columns": [
+        { "selector": "RequirementId", "text": "RequirementId", "type": "number" },
+        { "selector": "ReleaseId", "text": "ReleaseId", "type": "number" },
+        { "selector": "RequirementStatusId", "text": "RequirementStatusId", "type": "number" }
+      ]
+    }
+  ],
+  "transformations": [
+    {
+      "id": "filterByValue",
+      "options": {
+        "filters": [
+          {
+            "fieldName": "ReleaseId",
+            "config": {
+              "id": "isNotNull"
+            }
+          }
+        ],
+        "type": "include",
+        "match": "all"
+      }
+    },
+    {
+      "id": "groupBy",
+      "options": {
+        "fields": {
+          "ReleaseId": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "RequirementId": {
+            "aggregations": ["count"],
+            "operation": "aggregate"
+          }
+        }
+      }
+    },
+    {
+      "id": "calculateField",
+      "options": {
+        "mode": "binary",
+        "reduce": {
+          "reducer": "sum"
+        },
+        "alias": "CompletionPercentage"
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "color": {
+        "mode": "continuous-GrYlRd"
+      },
+      "min": 0,
+      "max": 100,
+      "unit": "percent",
+      "noValue": "No data",
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          { "color": "red", "value": null },
+          { "color": "orange", "value": 25 },
+          { "color": "yellow", "value": 50 },
+          { "color": "green", "value": 75 }
+        ]
+      }
+    },
+    "overrides": []
+  },
+  "options": {
+    "reduceOptions": {
+      "calcs": ["lastNotNull"],
+      "fields": "",
+      "values": true
+    },
+    "orientation": "horizontal",
+    "displayMode": "gradient",
+    "showUnfilled": true,
+    "minVizWidth": 75,
+    "minVizHeight": 75,
+    "text": {}
+  },
+  "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 9
+  },
+  "noDataMessage": "No active releases available",
+  "pluginVersion": "11.0.0"
+}

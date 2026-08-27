@@ -13,7 +13,7 @@
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations \u0026 Alerts",
+          "name": "Annotations & Alerts",
           "query": {
             "datasource": {
               "name": "-- Grafana --"
@@ -27,10 +27,42 @@
       }
     ],
     "cursorSync": "Off",
-    "description": "",
+    "description": "A combined view of project lifecycle fitness aggregating Spira OData, GitHub, and Weather data sources",
     "editable": true,
     "elements": {
-      "panel-1": {
+      "spira-section-header": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 1,
+          "links": [],
+          "title": "Project Health (Spira)",
+          "vizConfig": {
+            "group": "text",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              },
+              "options": {
+                "mode": "markdown",
+                "content": "## Project Health (Spira)\nRequirements coverage, testing progress, incident trends, and release status from Spira OData."
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "requirements-status": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -42,9 +74,694 @@
                   "spec": {
                     "hidden": false,
                     "query": {
-                      "group": "",
+                      "datasource": {
+                        "name": "Spira-OData",
+                        "type": "yesoreyeram-infinity-datasource"
+                      },
+                      "group": "infinity",
                       "kind": "DataQuery",
-                      "spec": {},
+                      "spec": {
+                        "type": "json",
+                        "parser": "backend",
+                        "source": "url",
+                        "url": "Requirements?$select=RequirementId,RequirementStatusId&$filter=IsDeleted eq false",
+                        "format": "table",
+                        "columns": [
+                          { "selector": "RequirementId", "text": "RequirementId", "type": "number" },
+                          { "selector": "RequirementStatusId", "text": "RequirementStatusId", "type": "number" }
+                        ]
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": [
+                {
+                  "id": "groupBy",
+                  "options": {
+                    "fields": {
+                      "RequirementStatusId": {
+                        "aggregations": [],
+                        "operation": "groupby"
+                      },
+                      "RequirementId": {
+                        "aggregations": ["count"],
+                        "operation": "aggregate"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "description": "Breakdown of requirements by status (Requested, In Progress, Developed, Tested)",
+          "id": 2,
+          "links": [],
+          "title": "Requirements Status",
+          "vizConfig": {
+            "group": "piechart",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "noValue": "No data"
+                },
+                "overrides": [
+                  {
+                    "matcher": { "id": "byValue", "options": { "op": "eq", "value": 1 } },
+                    "properties": [{ "id": "displayName", "value": "Requested" }]
+                  },
+                  {
+                    "matcher": { "id": "byValue", "options": { "op": "eq", "value": 2 } },
+                    "properties": [{ "id": "displayName", "value": "In Progress" }]
+                  },
+                  {
+                    "matcher": { "id": "byValue", "options": { "op": "eq", "value": 5 } },
+                    "properties": [{ "id": "displayName", "value": "Developed" }]
+                  },
+                  {
+                    "matcher": { "id": "byValue", "options": { "op": "eq", "value": 7 } },
+                    "properties": [{ "id": "displayName", "value": "Tested" }]
+                  }
+                ]
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": ["lastNotNull"],
+                  "fields": "",
+                  "values": true
+                },
+                "pieType": "pie",
+                "tooltip": { "mode": "single", "sort": "none" },
+                "legend": { "displayMode": "list", "placement": "right", "showLegend": true }
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "test-execution": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "Spira-OData",
+                        "type": "yesoreyeram-infinity-datasource"
+                      },
+                      "group": "infinity",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "type": "json",
+                        "parser": "backend",
+                        "source": "url",
+                        "url": "TestRuns?$select=TestRunId,ExecutionStatusId",
+                        "format": "table",
+                        "columns": [
+                          { "selector": "TestRunId", "text": "TestRunId", "type": "number" },
+                          { "selector": "ExecutionStatusId", "text": "ExecutionStatusId", "type": "number" }
+                        ]
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": [
+                {
+                  "id": "groupBy",
+                  "options": {
+                    "fields": {
+                      "ExecutionStatusId": {
+                        "aggregations": [],
+                        "operation": "groupby"
+                      },
+                      "TestRunId": {
+                        "aggregations": ["count"],
+                        "operation": "aggregate"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "description": "Breakdown of test run results by execution status (Passed, Failed, Blocked, Not Run)",
+          "id": 3,
+          "links": [],
+          "title": "Test Execution Results",
+          "vizConfig": {
+            "group": "piechart",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "noValue": "No data"
+                },
+                "overrides": [
+                  {
+                    "matcher": { "id": "byValue", "options": "1" },
+                    "properties": [
+                      { "id": "displayName", "value": "Failed" },
+                      { "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }
+                    ]
+                  },
+                  {
+                    "matcher": { "id": "byValue", "options": "2" },
+                    "properties": [
+                      { "id": "displayName", "value": "Passed" },
+                      { "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }
+                    ]
+                  },
+                  {
+                    "matcher": { "id": "byValue", "options": "3" },
+                    "properties": [
+                      { "id": "displayName", "value": "Not Run" },
+                      { "id": "color", "value": { "fixedColor": "gray", "mode": "fixed" } }
+                    ]
+                  },
+                  {
+                    "matcher": { "id": "byValue", "options": "5" },
+                    "properties": [
+                      { "id": "displayName", "value": "Blocked" },
+                      { "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "reduceOptions": {
+                  "values": true,
+                  "calcs": [],
+                  "fields": "/^ExecutionStatusId$/"
+                },
+                "pieType": "pie",
+                "tooltip": { "mode": "single", "sort": "none" },
+                "legend": { "displayMode": "list", "placement": "right" },
+                "displayLabels": ["percent"]
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "incident-trend": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "Spira-OData",
+                        "type": "yesoreyeram-infinity-datasource"
+                      },
+                      "group": "infinity",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "type": "json",
+                        "parser": "backend",
+                        "source": "url",
+                        "url": "Incidents?$select=IncidentId,Name,IncidentStatusId,CreationDate,ClosedDate&$filter=IncidentStatusId eq 1 or IncidentStatusId eq 2",
+                        "format": "timeseries",
+                        "columns": [
+                          { "selector": "IncidentId", "text": "IncidentId", "type": "number" },
+                          { "selector": "IncidentStatusId", "text": "IncidentStatusId", "type": "number" },
+                          { "selector": "CreationDate", "text": "CreationDate", "type": "timestamp" }
+                        ]
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "Spira-OData",
+                        "type": "yesoreyeram-infinity-datasource"
+                      },
+                      "group": "infinity",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "type": "json",
+                        "parser": "backend",
+                        "source": "url",
+                        "url": "Incidents?$select=IncidentId,Name,IncidentStatusId,ClosedDate&$filter=IncidentStatusId eq 5 or IncidentStatusId eq 6",
+                        "format": "timeseries",
+                        "columns": [
+                          { "selector": "IncidentId", "text": "IncidentId", "type": "number" },
+                          { "selector": "IncidentStatusId", "text": "IncidentStatusId", "type": "number" },
+                          { "selector": "ClosedDate", "text": "ClosedDate", "type": "timestamp" }
+                        ]
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                }
+              ],
+              "queryOptions": {
+                "timeRange": {
+                  "from": "now-90d",
+                  "to": "now"
+                }
+              },
+              "transformations": []
+            }
+          },
+          "description": "Open vs closed incident counts over the most recent 90 days",
+          "id": 4,
+          "links": [],
+          "title": "Incident Trend",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisLabel": "Count",
+                    "axisPlacement": "auto",
+                    "drawStyle": "line",
+                    "fillOpacity": 20,
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "showPoints": "auto",
+                    "spanNulls": false,
+                    "stacking": { "group": "A", "mode": "none" }
+                  },
+                  "noValue": "No data"
+                },
+                "overrides": [
+                  {
+                    "matcher": { "id": "byName", "options": "Open" },
+                    "properties": [{ "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }]
+                  },
+                  {
+                    "matcher": { "id": "byName", "options": "Closed" },
+                    "properties": [{ "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }]
+                  }
+                ]
+              },
+              "options": {
+                "tooltip": { "mode": "multi", "sort": "none" },
+                "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true }
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "release-progress": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "Spira-OData",
+                        "type": "yesoreyeram-infinity-datasource"
+                      },
+                      "group": "infinity",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "type": "json",
+                        "parser": "backend",
+                        "source": "url",
+                        "url": "Releases?$select=ReleaseId,Name,ReleaseStatusId&$filter=ReleaseStatusId eq 2",
+                        "format": "table",
+                        "columns": [
+                          { "selector": "ReleaseId", "text": "ReleaseId", "type": "number" },
+                          { "selector": "Name", "text": "Release", "type": "string" },
+                          { "selector": "ReleaseStatusId", "text": "ReleaseStatusId", "type": "number" }
+                        ]
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "Spira-OData",
+                        "type": "yesoreyeram-infinity-datasource"
+                      },
+                      "group": "infinity",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "type": "json",
+                        "parser": "backend",
+                        "source": "url",
+                        "url": "Requirements?$select=RequirementId,ReleaseId,RequirementStatusId&$filter=IsDeleted eq false",
+                        "format": "table",
+                        "columns": [
+                          { "selector": "RequirementId", "text": "RequirementId", "type": "number" },
+                          { "selector": "ReleaseId", "text": "ReleaseId", "type": "number" },
+                          { "selector": "RequirementStatusId", "text": "RequirementStatusId", "type": "number" }
+                        ]
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": [
+                {
+                  "id": "filterByValue",
+                  "options": {
+                    "filters": [
+                      {
+                        "fieldName": "ReleaseId",
+                        "config": { "id": "isNotNull" }
+                      }
+                    ],
+                    "type": "include",
+                    "match": "all"
+                  }
+                },
+                {
+                  "id": "groupBy",
+                  "options": {
+                    "fields": {
+                      "ReleaseId": {
+                        "aggregations": [],
+                        "operation": "groupby"
+                      },
+                      "RequirementId": {
+                        "aggregations": ["count"],
+                        "operation": "aggregate"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "description": "Percentage of requirements in completed status per active release",
+          "id": 5,
+          "links": [],
+          "title": "Release Progress",
+          "vizConfig": {
+            "group": "bargauge",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "continuous-GrYlRd"
+                  },
+                  "min": 0,
+                  "max": 100,
+                  "unit": "percent",
+                  "noValue": "No data",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      { "color": "red", "value": null },
+                      { "color": "orange", "value": 25 },
+                      { "color": "yellow", "value": 50 },
+                      { "color": "green", "value": 75 }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": ["lastNotNull"],
+                  "fields": "",
+                  "values": true
+                },
+                "orientation": "horizontal",
+                "displayMode": "gradient",
+                "showUnfilled": true
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "github-section-header": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 6,
+          "links": [],
+          "title": "Development Activity (GitHub)",
+          "vizConfig": {
+            "group": "text",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              },
+              "options": {
+                "mode": "markdown",
+                "content": "## Development Activity (GitHub)\nCommit history, pull requests, and open issues from the linked GitHub repository."
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "github-commits": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "GitHub",
+                        "type": "grafana-github-datasource"
+                      },
+                      "group": "github",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "queryType": "Commits",
+                        "owner": "${github_owner}",
+                        "repository": "${github_repo}",
+                        "timeField": "Date"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {
+                "timeRange": {
+                  "from": "now-30d",
+                  "to": "now"
+                }
+              },
+              "transformations": []
+            }
+          },
+          "description": "Commit activity over the last 30 days",
+          "id": 7,
+          "links": [],
+          "title": "Commit Activity",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "drawStyle": "bars",
+                    "fillOpacity": 80,
+                    "lineWidth": 1,
+                    "axisLabel": "Commits",
+                    "axisPlacement": "auto",
+                    "stacking": { "group": "A", "mode": "none" }
+                  },
+                  "noValue": "No data"
+                },
+                "overrides": []
+              },
+              "options": {
+                "tooltip": { "mode": "single", "sort": "none" },
+                "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true }
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "github-pull-requests": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "GitHub",
+                        "type": "grafana-github-datasource"
+                      },
+                      "group": "github",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "queryType": "Pull_Requests",
+                        "owner": "${github_owner}",
+                        "repository": "${github_repo}",
+                        "timeField": "CreatedAt"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {
+                "timeRange": {
+                  "from": "now-30d",
+                  "to": "now"
+                }
+              },
+              "transformations": [
+                {
+                  "id": "groupBy",
+                  "options": {
+                    "fields": {
+                      "State": {
+                        "aggregations": [],
+                        "operation": "groupby"
+                      },
+                      "Number": {
+                        "aggregations": ["count"],
+                        "operation": "aggregate"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "description": "Open and merged pull request counts",
+          "id": 8,
+          "links": [],
+          "title": "Pull Requests",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "noValue": "No data"
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": ["count"],
+                  "fields": "",
+                  "values": false
+                },
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "textMode": "auto"
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "github-issues": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "GitHub",
+                        "type": "grafana-github-datasource"
+                      },
+                      "group": "github",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "queryType": "Issues",
+                        "owner": "${github_owner}",
+                        "repository": "${github_repo}",
+                        "timeField": "CreatedAt"
+                      },
                       "version": "v0"
                     },
                     "refId": "A"
@@ -55,19 +772,133 @@
               "transformations": []
             }
           },
-          "description": "",
-          "id": 1,
+          "description": "Open issues in the repository",
+          "id": 9,
           "links": [],
-          "title": "New panel",
+          "title": "Open Issues",
           "vizConfig": {
-            "group": "__unconfigured-panel",
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "noValue": "No data"
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": ["count"],
+                  "fields": "",
+                  "values": false
+                },
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "textMode": "auto"
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "supplementary-section-header": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 10,
+          "links": [],
+          "title": "Supplementary Context",
+          "vizConfig": {
+            "group": "text",
             "kind": "VizConfig",
             "spec": {
               "fieldConfig": {
                 "defaults": {},
                 "overrides": []
               },
-              "options": {}
+              "options": {
+                "mode": "markdown",
+                "content": "## Supplementary Context\nAdditional external data sources demonstrating Grafana's multi-source aggregation capability."
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "weather-current": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "Weather-API",
+                        "type": "yesoreyeram-infinity-datasource"
+                      },
+                      "group": "infinity",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "type": "json",
+                        "parser": "backend",
+                        "source": "url",
+                        "url": "https://api.openweathermap.org/data/2.5/weather?q=${weather_city}&units=metric&appid=${weather_api_key}",
+                        "format": "table",
+                        "columns": [
+                          { "selector": "main.temp", "text": "Temperature (°C)", "type": "number" },
+                          { "selector": "weather.0.description", "text": "Condition", "type": "string" },
+                          { "selector": "main.humidity", "text": "Humidity (%)", "type": "number" }
+                        ]
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Current weather conditions for the configured location",
+          "id": 11,
+          "links": [],
+          "title": "Current Weather",
+          "vizConfig": {
+            "group": "table",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "noValue": "No data"
+                },
+                "overrides": []
+              },
+              "options": {
+                "showHeader": true,
+                "cellHeight": "sm",
+                "footer": { "show": false }
+              }
             },
             "version": "13.0.1"
           }
@@ -83,12 +914,142 @@
             "spec": {
               "element": {
                 "kind": "ElementReference",
-                "name": "panel-1"
+                "name": "spira-section-header"
+              },
+              "height": 3,
+              "width": 24,
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "requirements-status"
               },
               "height": 8,
               "width": 12,
               "x": 0,
-              "y": 0
+              "y": 3
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "test-execution"
+              },
+              "height": 8,
+              "width": 12,
+              "x": 12,
+              "y": 3
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "incident-trend"
+              },
+              "height": 8,
+              "width": 12,
+              "x": 0,
+              "y": 11
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "release-progress"
+              },
+              "height": 8,
+              "width": 12,
+              "x": 12,
+              "y": 11
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "github-section-header"
+              },
+              "height": 3,
+              "width": 24,
+              "x": 0,
+              "y": 19
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "github-commits"
+              },
+              "height": 8,
+              "width": 12,
+              "x": 0,
+              "y": 22
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "github-pull-requests"
+              },
+              "height": 8,
+              "width": 6,
+              "x": 12,
+              "y": 22
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "github-issues"
+              },
+              "height": 8,
+              "width": 6,
+              "x": 18,
+              "y": 22
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "supplementary-section-header"
+              },
+              "height": 3,
+              "width": 24,
+              "x": 0,
+              "y": 30
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "weather-current"
+              },
+              "height": 8,
+              "width": 12,
+              "x": 0,
+              "y": 33
             }
           }
         ]
@@ -105,9 +1066,9 @@
       }
     },
     "preload": false,
-    "tags": [],
+    "tags": ["spira", "lifecycle", "poc", "github", "weather"],
     "timeSettings": {
-      "autoRefresh": "",
+      "autoRefresh": "5m",
       "autoRefreshIntervals": [
         "5s",
         "10s",
@@ -121,12 +1082,77 @@
         "1d"
       ],
       "fiscalYearStartMonth": 0,
-      "from": "now-6h",
+      "from": "now-90d",
       "hideTimepicker": false,
       "timezone": "browser",
       "to": "now"
     },
-    "title": "Spira x Github Dashboard",
-    "variables": []
+    "title": "Spira Combined Lifecycle Dashboard",
+    "variables": [
+      {
+        "kind": "CustomVariable",
+        "spec": {
+          "name": "github_owner",
+          "label": "GitHub Owner",
+          "description": "GitHub repository owner/organization",
+          "current": {
+            "text": "inflectra",
+            "value": "inflectra"
+          },
+          "query": "inflectra",
+          "hide": 0,
+          "multi": false,
+          "includeAll": false
+        }
+      },
+      {
+        "kind": "CustomVariable",
+        "spec": {
+          "name": "github_repo",
+          "label": "GitHub Repo",
+          "description": "GitHub repository name",
+          "current": {
+            "text": "spira",
+            "value": "spira"
+          },
+          "query": "spira",
+          "hide": 0,
+          "multi": false,
+          "includeAll": false
+        }
+      },
+      {
+        "kind": "CustomVariable",
+        "spec": {
+          "name": "weather_city",
+          "label": "Weather City",
+          "description": "City for weather data",
+          "current": {
+            "text": "Dublin",
+            "value": "Dublin"
+          },
+          "query": "Dublin",
+          "hide": 0,
+          "multi": false,
+          "includeAll": false
+        }
+      },
+      {
+        "kind": "CustomVariable",
+        "spec": {
+          "name": "weather_api_key",
+          "label": "Weather API Key",
+          "description": "OpenWeatherMap API key",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "query": "",
+          "hide": 2,
+          "multi": false,
+          "includeAll": false
+        }
+      }
+    ]
   }
 }

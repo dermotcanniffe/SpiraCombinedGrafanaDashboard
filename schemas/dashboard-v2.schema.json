@@ -1,0 +1,212 @@
+{
+  "title": "Grafana Dashboard V2 Resource",
+  "description": "JSON Schema for Grafana dashboard.grafana.app/v2 format",
+  "type": "object",
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "const": "dashboard.grafana.app/v2"
+    },
+    "kind": {
+      "type": "string",
+      "const": "Dashboard"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "required": ["title", "elements", "layout"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "editable": {
+          "type": "boolean"
+        },
+        "cursorSync": {
+          "type": "string"
+        },
+        "liveNow": {
+          "type": "boolean"
+        },
+        "preload": {
+          "type": "boolean"
+        },
+        "annotations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["kind", "spec"],
+            "properties": {
+              "kind": { "type": "string" },
+              "spec": { "type": "object" }
+            }
+          }
+        },
+        "elements": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "required": ["kind", "spec"],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "const": "Panel"
+              },
+              "spec": {
+                "type": "object",
+                "required": ["id", "title", "vizConfig"],
+                "properties": {
+                  "id": { "type": "integer" },
+                  "title": { "type": "string" },
+                  "description": { "type": "string" },
+                  "links": { "type": "array" },
+                  "data": {
+                    "type": "object",
+                    "required": ["kind", "spec"],
+                    "properties": {
+                      "kind": { "type": "string" },
+                      "spec": {
+                        "type": "object",
+                        "properties": {
+                          "queries": { "type": "array" },
+                          "queryOptions": { "type": "object" },
+                          "transformations": { "type": "array" }
+                        }
+                      }
+                    }
+                  },
+                  "vizConfig": {
+                    "type": "object",
+                    "required": ["kind", "spec"],
+                    "properties": {
+                      "group": { "type": "string" },
+                      "kind": {
+                        "type": "string",
+                        "const": "VizConfig"
+                      },
+                      "spec": {
+                        "type": "object",
+                        "properties": {
+                          "fieldConfig": { "type": "object" },
+                          "options": { "type": "object" }
+                        }
+                      },
+                      "version": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "layout": {
+          "type": "object",
+          "required": ["kind", "spec"],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "GridLayout"
+            },
+            "spec": {
+              "type": "object",
+              "required": ["items"],
+              "properties": {
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["kind", "spec"],
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "GridLayoutItem"
+                      },
+                      "spec": {
+                        "type": "object",
+                        "required": ["element", "height", "width", "x", "y"],
+                        "properties": {
+                          "element": {
+                            "type": "object",
+                            "required": ["kind", "name"],
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "ElementReference"
+                              },
+                              "name": { "type": "string" }
+                            }
+                          },
+                          "height": { "type": "integer", "minimum": 1 },
+                          "width": { "type": "integer", "minimum": 1, "maximum": 24 },
+                          "x": { "type": "integer", "minimum": 0, "maximum": 23 },
+                          "y": { "type": "integer", "minimum": 0 }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "timeSettings": {
+          "type": "object",
+          "properties": {
+            "from": { "type": "string" },
+            "to": { "type": "string" },
+            "timezone": { "type": "string" },
+            "autoRefresh": { "type": "string" },
+            "autoRefreshIntervals": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "hideTimepicker": { "type": "boolean" },
+            "fiscalYearStartMonth": { "type": "integer" }
+          }
+        },
+        "variables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["kind", "spec"],
+            "properties": {
+              "kind": { "type": "string" },
+              "spec": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "links": {
+          "type": "array"
+        },
+        "preferences": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

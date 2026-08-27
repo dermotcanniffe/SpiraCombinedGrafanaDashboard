@@ -1,0 +1,147 @@
+{
+  "name": "Test Execution Results",
+  "type": "piechart",
+  "title": "Test Execution Results",
+  "description": "Breakdown of test run results by execution status (Passed, Failed, Blocked, Not Run)",
+  "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "name": "Spira-OData"
+  },
+  "targets": [
+    {
+      "refId": "A",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "name": "Spira-OData"
+      },
+      "type": "json",
+      "parser": "backend",
+      "source": "url",
+      "url": "TestRuns?$select=TestRunId,ExecutionStatusId",
+      "format": "table",
+      "columns": [
+        {
+          "selector": "TestRunId",
+          "text": "TestRunId",
+          "type": "number"
+        },
+        {
+          "selector": "ExecutionStatusId",
+          "text": "ExecutionStatusId",
+          "type": "number"
+        }
+      ]
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "color": {
+        "mode": "palette-classic"
+      },
+      "custom": {}
+    },
+    "overrides": [
+      {
+        "matcher": {
+          "id": "byValue",
+          "options": "1"
+        },
+        "properties": [
+          {
+            "id": "displayName",
+            "value": "Failed"
+          },
+          {
+            "id": "color",
+            "value": {
+              "fixedColor": "red",
+              "mode": "fixed"
+            }
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "id": "byValue",
+          "options": "2"
+        },
+        "properties": [
+          {
+            "id": "displayName",
+            "value": "Passed"
+          },
+          {
+            "id": "color",
+            "value": {
+              "fixedColor": "green",
+              "mode": "fixed"
+            }
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "id": "byValue",
+          "options": "3"
+        },
+        "properties": [
+          {
+            "id": "displayName",
+            "value": "Not Run"
+          },
+          {
+            "id": "color",
+            "value": {
+              "fixedColor": "gray",
+              "mode": "fixed"
+            }
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "id": "byValue",
+          "options": "5"
+        },
+        "properties": [
+          {
+            "id": "displayName",
+            "value": "Blocked"
+          },
+          {
+            "id": "color",
+            "value": {
+              "fixedColor": "orange",
+              "mode": "fixed"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "options": {
+    "reduceOptions": {
+      "values": true,
+      "calcs": [],
+      "fields": "/^ExecutionStatusId$/"
+    },
+    "pieType": "pie",
+    "tooltip": {
+      "mode": "single",
+      "sort": "none"
+    },
+    "legend": {
+      "displayMode": "list",
+      "placement": "right"
+    },
+    "displayLabels": ["percent"]
+  },
+  "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 1
+  },
+  "noDataMessage": "No test execution data available",
+  "pluginVersion": "11.0.0"
+}
