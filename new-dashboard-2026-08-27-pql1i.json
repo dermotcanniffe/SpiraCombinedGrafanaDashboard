@@ -597,8 +597,8 @@
                       "kind": "DataQuery",
                       "spec": {
                         "queryType": "Commits",
-                        "owner": "inflectra",
-                        "repository": "spira",
+                        "owner": "dermotcanniffe",
+                        "repository": "githubSpiraSyncRepo",
                         "timeField": "Date"
                       },
                       "version": "v0"
@@ -670,8 +670,8 @@
                       "kind": "DataQuery",
                       "spec": {
                         "queryType": "Pull_Requests",
-                        "owner": "inflectra",
-                        "repository": "spira",
+                        "owner": "dermotcanniffe",
+                        "repository": "githubSpiraSyncRepo",
                         "timeField": "CreatedAt"
                       },
                       "version": "v0"
@@ -758,8 +758,8 @@
                       "kind": "DataQuery",
                       "spec": {
                         "queryType": "Issues",
-                        "owner": "inflectra",
-                        "repository": "spira",
+                        "owner": "dermotcanniffe",
+                        "repository": "githubSpiraSyncRepo",
                         "timeField": "CreatedAt"
                       },
                       "version": "v0"
