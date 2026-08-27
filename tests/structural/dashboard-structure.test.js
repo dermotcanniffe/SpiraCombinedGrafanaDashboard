@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const DASHBOARD_FILE = path.join(ROOT, 'new-dashboard-2026-08-27-pql1i.json');
+const DASHBOARD_FILE = path.join(ROOT, 'dashboards', 'new-dashboard-2026-08-27-pql1i.json');
 
 let dashboard;
 

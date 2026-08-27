@@ -4,7 +4,7 @@ const Ajv = require('ajv');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const SCHEMAS_DIR = path.join(ROOT, 'schemas');
-const DASHBOARD_FILE = path.join(ROOT, 'new-dashboard-2026-08-27-pql1i.json');
+const DASHBOARD_FILE = path.join(ROOT, 'dashboards', 'new-dashboard-2026-08-27-pql1i.json');
 const LIBRARY_PANELS_DIR = path.join(ROOT, 'library-panels');
 
 const ajv = new Ajv({ allErrors: true, strict: false });
