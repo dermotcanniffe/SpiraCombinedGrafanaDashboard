@@ -98,23 +98,7 @@
                 }
               ],
               "queryOptions": {},
-              "transformations": [
-                {
-                  "id": "groupBy",
-                  "options": {
-                    "fields": {
-                      "RequirementStatusId": {
-                        "aggregations": [],
-                        "operation": "groupby"
-                      },
-                      "RequirementId": {
-                        "aggregations": ["count"],
-                        "operation": "aggregate"
-                      }
-                    }
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "Breakdown of requirements by status (Requested, In Progress, Developed, Tested)",
@@ -202,23 +186,7 @@
                 }
               ],
               "queryOptions": {},
-              "transformations": [
-                {
-                  "id": "groupBy",
-                  "options": {
-                    "fields": {
-                      "ExecutionStatusId": {
-                        "aggregations": [],
-                        "operation": "groupby"
-                      },
-                      "TestRunId": {
-                        "aggregations": ["count"],
-                        "operation": "aggregate"
-                      }
-                    }
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "Breakdown of test run results by execution status (Passed, Failed, Blocked, Not Run)",
@@ -469,36 +437,7 @@
                 }
               ],
               "queryOptions": {},
-              "transformations": [
-                {
-                  "id": "filterByValue",
-                  "options": {
-                    "filters": [
-                      {
-                        "fieldName": "ReleaseId",
-                        "config": { "id": "isNotNull" }
-                      }
-                    ],
-                    "type": "include",
-                    "match": "all"
-                  }
-                },
-                {
-                  "id": "groupBy",
-                  "options": {
-                    "fields": {
-                      "ReleaseId": {
-                        "aggregations": [],
-                        "operation": "groupby"
-                      },
-                      "RequirementId": {
-                        "aggregations": ["count"],
-                        "operation": "aggregate"
-                      }
-                    }
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "Percentage of requirements in completed status per active release",
@@ -686,23 +625,7 @@
                   "to": "now"
                 }
               },
-              "transformations": [
-                {
-                  "id": "groupBy",
-                  "options": {
-                    "fields": {
-                      "State": {
-                        "aggregations": [],
-                        "operation": "groupby"
-                      },
-                      "Number": {
-                        "aggregations": ["count"],
-                        "operation": "aggregate"
-                      }
-                    }
-                  }
-                }
-              ]
+              "transformations": []
             }
           },
           "description": "Open and merged pull request counts",
