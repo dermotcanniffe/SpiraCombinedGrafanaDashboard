@@ -575,9 +575,27 @@
                   "spec": {
                     "hidden": false,
                     "query": {
-                      "group": "",
+                      "datasource": {
+                        "name": "bfo9q9z2bl1xcb"
+                      },
+                      "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
-                      "spec": {},
+                      "spec": {
+                        "columns": [],
+                        "filters": [],
+                        "format": "as-is",
+                        "global_query_id": "spiraProducts",
+                        "parser": "backend",
+                        "root_selector": "value[PROJECT_ID = 33].{  \n  \"AuthorId\": AUTHOR_ID,  \n  \"AuthorName\": AUTHOR_NAME,  \n  \"ComponentId\": COMPONENT_ID,  \n  \"ComponentName\": COMPONENT_NAME,  \n  \"CreationDate\": CREATION_DATE,  \n  \"ProjectId\": PROJECT_ID  \n}  \n",
+                        "source": "url",
+                        "type": "json",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Requirements",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": []
+                        }
+                      },
                       "version": "v0"
                     },
                     "refId": "A"
@@ -591,7 +609,7 @@
           "description": "",
           "id": 12,
           "links": [],
-          "title": "New panel",
+          "title": "New New panel",
           "vizConfig": {
             "group": "table",
             "kind": "VizConfig",
