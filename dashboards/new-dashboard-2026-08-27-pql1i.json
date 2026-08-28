@@ -1012,7 +1012,28 @@
                 }
               ],
               "queryOptions": {},
-              "transformations": []
+              "transformations": [
+                {
+                  "group": "groupBy",
+                  "kind": "Transformation",
+                  "spec": {
+                    "options": {
+                      "fields": {
+                        "REQUIREMENT_ID": {
+                          "aggregations": [
+                            "count"
+                          ],
+                          "operation": "aggregate"
+                        },
+                        "REQUIREMENT_STATUS_NAME": {
+                          "aggregations": [],
+                          "operation": "groupby"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
             }
           },
           "description": "Breakdown of requirements by status (Requested, In Progress, Developed, Tested)",
@@ -1020,40 +1041,44 @@
           "links": [],
           "title": "Requirements Status",
           "vizConfig": {
-            "group": "table",
+            "group": "piechart",
             "kind": "VizConfig",
             "spec": {
               "fieldConfig": {
                 "defaults": {
-                  "custom": {
-                    "align": "auto",
-                    "cellOptions": {
-                      "type": "auto"
-                    },
-                    "footer": {
-                      "reducers": []
-                    },
-                    "inspect": false
+                  "color": {
+                    "mode": "palette-classic"
                   },
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "color": "green",
-                        "value": 0
-                      },
-                      {
-                        "color": "red",
-                        "value": 80
-                      }
-                    ]
+                  "custom": {
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
                   }
                 },
                 "overrides": []
               },
               "options": {
-                "cellHeight": "sm",
-                "showHeader": true
+                "legend": {
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "pieType": "donut",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": true
+                },
+                "sort": "desc",
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
             },
             "version": "13.0.1"
