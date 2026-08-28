@@ -13,7 +13,7 @@
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
+          "name": "Annotations \u0026 Alerts",
           "query": {
             "datasource": {
               "name": "-- Grafana --"
@@ -30,39 +30,7 @@
     "description": "A combined view of project lifecycle fitness aggregating Spira OData, GitHub, and Weather data sources",
     "editable": true,
     "elements": {
-      "spira-section-header": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [],
-              "queryOptions": {},
-              "transformations": []
-            }
-          },
-          "description": "",
-          "id": 1,
-          "links": [],
-          "title": "Project Health (Spira)",
-          "vizConfig": {
-            "group": "text",
-            "kind": "VizConfig",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {},
-                "overrides": []
-              },
-              "options": {
-                "mode": "markdown",
-                "content": "## Project Health (Spira)\nRequirements coverage, testing progress, incident trends, and release status from Spira OData."
-              }
-            },
-            "version": "13.0.1"
-          }
-        }
-      },
-      "requirements-status": {
+      "github-commits": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -75,21 +43,15 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "Spira-OData",
-                        "type": "yesoreyeram-infinity-datasource"
+                        "name": "GitHub"
                       },
-                      "group": "infinity",
+                      "group": "github",
                       "kind": "DataQuery",
                       "spec": {
-                        "type": "json",
-                        "parser": "backend",
-                        "source": "url",
-                        "url": "https://internal-dermot.spiraservice.net/api/odata/Requirements",
-                        "format": "table",
-                        "columns": [
-                          { "selector": "RequirementId", "text": "RequirementId", "type": "number" },
-                          { "selector": "RequirementStatusId", "text": "RequirementStatusId", "type": "number" }
-                        ]
+                        "owner": "dermotcanniffe",
+                        "queryType": "Commits",
+                        "repository": "githubSpiraSyncRepo",
+                        "timeField": "Date"
                       },
                       "version": "v0"
                     },
@@ -101,233 +63,10 @@
               "transformations": []
             }
           },
-          "description": "Breakdown of requirements by status (Requested, In Progress, Developed, Tested)",
-          "id": 2,
+          "description": "Commit activity over the last 30 days",
+          "id": 7,
           "links": [],
-          "title": "Requirements Status",
-          "vizConfig": {
-            "group": "piechart",
-            "kind": "VizConfig",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "noValue": "No data"
-                },
-                "overrides": [
-                  {
-                    "matcher": { "id": "byValue", "options": { "op": "eq", "value": 1 } },
-                    "properties": [{ "id": "displayName", "value": "Requested" }]
-                  },
-                  {
-                    "matcher": { "id": "byValue", "options": { "op": "eq", "value": 2 } },
-                    "properties": [{ "id": "displayName", "value": "In Progress" }]
-                  },
-                  {
-                    "matcher": { "id": "byValue", "options": { "op": "eq", "value": 5 } },
-                    "properties": [{ "id": "displayName", "value": "Developed" }]
-                  },
-                  {
-                    "matcher": { "id": "byValue", "options": { "op": "eq", "value": 7 } },
-                    "properties": [{ "id": "displayName", "value": "Tested" }]
-                  }
-                ]
-              },
-              "options": {
-                "reduceOptions": {
-                  "calcs": ["lastNotNull"],
-                  "fields": "",
-                  "values": true
-                },
-                "pieType": "pie",
-                "tooltip": { "mode": "single", "sort": "none" },
-                "legend": { "displayMode": "list", "placement": "right", "showLegend": true }
-              }
-            },
-            "version": "13.0.1"
-          }
-        }
-      },
-      "test-execution": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "query": {
-                      "datasource": {
-                        "name": "Spira-OData",
-                        "type": "yesoreyeram-infinity-datasource"
-                      },
-                      "group": "infinity",
-                      "kind": "DataQuery",
-                      "spec": {
-                        "type": "json",
-                        "parser": "backend",
-                        "source": "url",
-                        "url": "https://internal-dermot.spiraservice.net/api/odata/TestRuns",
-                        "format": "table",
-                        "columns": [
-                          { "selector": "TestRunId", "text": "TestRunId", "type": "number" },
-                          { "selector": "ExecutionStatusId", "text": "ExecutionStatusId", "type": "number" }
-                        ]
-                      },
-                      "version": "v0"
-                    },
-                    "refId": "A"
-                  }
-                }
-              ],
-              "queryOptions": {},
-              "transformations": []
-            }
-          },
-          "description": "Breakdown of test run results by execution status (Passed, Failed, Blocked, Not Run)",
-          "id": 3,
-          "links": [],
-          "title": "Test Execution Results",
-          "vizConfig": {
-            "group": "piechart",
-            "kind": "VizConfig",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "noValue": "No data"
-                },
-                "overrides": [
-                  {
-                    "matcher": { "id": "byValue", "options": "1" },
-                    "properties": [
-                      { "id": "displayName", "value": "Failed" },
-                      { "id": "color", "value": { "fixedColor": "red", "mode": "fixed" } }
-                    ]
-                  },
-                  {
-                    "matcher": { "id": "byValue", "options": "2" },
-                    "properties": [
-                      { "id": "displayName", "value": "Passed" },
-                      { "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }
-                    ]
-                  },
-                  {
-                    "matcher": { "id": "byValue", "options": "3" },
-                    "properties": [
-                      { "id": "displayName", "value": "Not Run" },
-                      { "id": "color", "value": { "fixedColor": "gray", "mode": "fixed" } }
-                    ]
-                  },
-                  {
-                    "matcher": { "id": "byValue", "options": "5" },
-                    "properties": [
-                      { "id": "displayName", "value": "Blocked" },
-                      { "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }
-                    ]
-                  }
-                ]
-              },
-              "options": {
-                "reduceOptions": {
-                  "values": true,
-                  "calcs": [],
-                  "fields": "/^ExecutionStatusId$/"
-                },
-                "pieType": "pie",
-                "tooltip": { "mode": "single", "sort": "none" },
-                "legend": { "displayMode": "list", "placement": "right" },
-                "displayLabels": ["percent"]
-              }
-            },
-            "version": "13.0.1"
-          }
-        }
-      },
-      "incident-trend": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "query": {
-                      "datasource": {
-                        "name": "Spira-OData",
-                        "type": "yesoreyeram-infinity-datasource"
-                      },
-                      "group": "infinity",
-                      "kind": "DataQuery",
-                      "spec": {
-                        "type": "json",
-                        "parser": "backend",
-                        "source": "url",
-                        "url": "https://internal-dermot.spiraservice.net/api/odata/Incidents",
-                        "format": "timeseries",
-                        "columns": [
-                          { "selector": "IncidentId", "text": "IncidentId", "type": "number" },
-                          { "selector": "IncidentStatusId", "text": "IncidentStatusId", "type": "number" },
-                          { "selector": "CreationDate", "text": "CreationDate", "type": "timestamp" }
-                        ]
-                      },
-                      "version": "v0"
-                    },
-                    "refId": "A"
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "query": {
-                      "datasource": {
-                        "name": "Spira-OData",
-                        "type": "yesoreyeram-infinity-datasource"
-                      },
-                      "group": "infinity",
-                      "kind": "DataQuery",
-                      "spec": {
-                        "type": "json",
-                        "parser": "backend",
-                        "source": "url",
-                        "url": "https://internal-dermot.spiraservice.net/api/odata/Incidents",
-                        "format": "timeseries",
-                        "columns": [
-                          { "selector": "IncidentId", "text": "IncidentId", "type": "number" },
-                          { "selector": "IncidentStatusId", "text": "IncidentStatusId", "type": "number" },
-                          { "selector": "ClosedDate", "text": "ClosedDate", "type": "timestamp" }
-                        ]
-                      },
-                      "version": "v0"
-                    },
-                    "refId": "B"
-                  }
-                }
-              ],
-              "queryOptions": {
-                "timeRange": {
-                  "from": "now-90d",
-                  "to": "now"
-                }
-              },
-              "transformations": []
-            }
-          },
-          "description": "Open vs closed incident counts over the most recent 90 days",
-          "id": 4,
-          "links": [],
-          "title": "Incident Trend",
+          "title": "Commit Activity",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -339,40 +78,78 @@
                   },
                   "custom": {
                     "axisBorderShow": false,
-                    "axisLabel": "Count",
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "Commits",
                     "axisPlacement": "auto",
-                    "drawStyle": "line",
-                    "fillOpacity": 20,
-                    "lineInterpolation": "smooth",
-                    "lineWidth": 2,
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "bars",
+                    "fillOpacity": 80,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
                     "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
                     "showPoints": "auto",
+                    "showValues": false,
                     "spanNulls": false,
-                    "stacking": { "group": "A", "mode": "none" }
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
                   },
-                  "noValue": "No data"
-                },
-                "overrides": [
-                  {
-                    "matcher": { "id": "byName", "options": "Open" },
-                    "properties": [{ "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }]
-                  },
-                  {
-                    "matcher": { "id": "byName", "options": "Closed" },
-                    "properties": [{ "id": "color", "value": { "fixedColor": "green", "mode": "fixed" } }]
+                  "noValue": "No data",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
                   }
-                ]
+                },
+                "overrides": []
               },
               "options": {
-                "tooltip": { "mode": "multi", "sort": "none" },
-                "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true }
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
             },
             "version": "13.0.1"
           }
         }
       },
-      "release-progress": {
+      "github-issues": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -385,54 +162,19 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "Spira-OData",
-                        "type": "yesoreyeram-infinity-datasource"
+                        "name": "GitHub"
                       },
-                      "group": "infinity",
+                      "group": "github",
                       "kind": "DataQuery",
                       "spec": {
-                        "type": "json",
-                        "parser": "backend",
-                        "source": "url",
-                        "url": "https://internal-dermot.spiraservice.net/api/odata/Releases",
-                        "format": "table",
-                        "columns": [
-                          { "selector": "ReleaseId", "text": "ReleaseId", "type": "number" },
-                          { "selector": "Name", "text": "Release", "type": "string" },
-                          { "selector": "ReleaseStatusId", "text": "ReleaseStatusId", "type": "number" }
-                        ]
+                        "owner": "dermotcanniffe",
+                        "queryType": "Issues",
+                        "repository": "githubSpiraSyncRepo",
+                        "timeField": "CreatedAt"
                       },
                       "version": "v0"
                     },
                     "refId": "A"
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "query": {
-                      "datasource": {
-                        "name": "Spira-OData",
-                        "type": "yesoreyeram-infinity-datasource"
-                      },
-                      "group": "infinity",
-                      "kind": "DataQuery",
-                      "spec": {
-                        "type": "json",
-                        "parser": "backend",
-                        "source": "url",
-                        "url": "https://internal-dermot.spiraservice.net/api/odata/Requirements",
-                        "format": "table",
-                        "columns": [
-                          { "selector": "RequirementId", "text": "RequirementId", "type": "number" },
-                          { "selector": "ReleaseId", "text": "ReleaseId", "type": "number" },
-                          { "selector": "RequirementStatusId", "text": "RequirementStatusId", "type": "number" }
-                        ]
-                      },
-                      "version": "v0"
-                    },
-                    "refId": "B"
                   }
                 }
               ],
@@ -440,44 +182,137 @@
               "transformations": []
             }
           },
-          "description": "Percentage of requirements in completed status per active release",
-          "id": 5,
+          "description": "Open issues in the repository",
+          "id": 9,
           "links": [],
-          "title": "Release Progress",
+          "title": "Open Issues",
           "vizConfig": {
-            "group": "bargauge",
+            "group": "stat",
             "kind": "VizConfig",
             "spec": {
               "fieldConfig": {
                 "defaults": {
                   "color": {
-                    "mode": "continuous-GrYlRd"
+                    "mode": "palette-classic"
                   },
-                  "min": 0,
-                  "max": 100,
-                  "unit": "percent",
                   "noValue": "No data",
                   "thresholds": {
                     "mode": "absolute",
                     "steps": [
-                      { "color": "red", "value": null },
-                      { "color": "orange", "value": 25 },
-                      { "color": "yellow", "value": 50 },
-                      { "color": "green", "value": 75 }
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
                     ]
                   }
                 },
                 "overrides": []
               },
               "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
                 "reduceOptions": {
-                  "calcs": ["lastNotNull"],
+                  "calcs": [
+                    "count"
+                  ],
                   "fields": "",
-                  "values": true
+                  "values": false
                 },
-                "orientation": "horizontal",
-                "displayMode": "gradient",
-                "showUnfilled": true
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "github-pull-requests": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "GitHub"
+                      },
+                      "group": "github",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "owner": "dermotcanniffe",
+                        "queryType": "Pull_Requests",
+                        "repository": "githubSpiraSyncRepo",
+                        "timeField": "CreatedAt"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Open and merged pull request counts",
+          "id": 8,
+          "links": [],
+          "title": "Pull Requests",
+          "vizConfig": {
+            "group": "stat",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "noValue": "No data",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "percentChangeColorMode": "standard",
+                "reduceOptions": {
+                  "calcs": [
+                    "count"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
               }
             },
             "version": "13.0.1"
@@ -508,15 +343,20 @@
                 "overrides": []
               },
               "options": {
-                "mode": "markdown",
-                "content": "## Development Activity (GitHub)\nCommit history, pull requests, and open issues from the linked GitHub repository."
+                "code": {
+                  "language": "plaintext",
+                  "showLineNumbers": false,
+                  "showMiniMap": false
+                },
+                "content": "## Development Activity (GitHub)\nCommit history, pull requests, and open issues from the linked GitHub repository.",
+                "mode": "markdown"
               }
             },
             "version": "13.0.1"
           }
         }
       },
-      "github-commits": {
+      "incident-trend": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -529,36 +369,87 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "GitHub",
-                        "type": "grafana-github-datasource"
+                        "name": "Spira-OData"
                       },
-                      "group": "github",
+                      "group": "infinity",
                       "kind": "DataQuery",
                       "spec": {
-                        "queryType": "Commits",
-                        "owner": "dermotcanniffe",
-                        "repository": "githubSpiraSyncRepo",
-                        "timeField": "Date"
+                        "columns": [
+                          {
+                            "selector": "IncidentId",
+                            "text": "IncidentId",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "IncidentStatusId",
+                            "text": "IncidentStatusId",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "CreationDate",
+                            "text": "CreationDate",
+                            "type": "timestamp"
+                          }
+                        ],
+                        "format": "timeseries",
+                        "parser": "backend",
+                        "source": "url",
+                        "type": "json",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Incidents"
                       },
                       "version": "v0"
                     },
                     "refId": "A"
                   }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "Spira-OData"
+                      },
+                      "group": "infinity",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "IncidentId",
+                            "text": "IncidentId",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "IncidentStatusId",
+                            "text": "IncidentStatusId",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "ClosedDate",
+                            "text": "ClosedDate",
+                            "type": "timestamp"
+                          }
+                        ],
+                        "format": "timeseries",
+                        "parser": "backend",
+                        "source": "url",
+                        "type": "json",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Incidents"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
                 }
               ],
-              "queryOptions": {
-                "timeRange": {
-                  "from": "now-30d",
-                  "to": "now"
-                }
-              },
+              "queryOptions": {},
               "transformations": []
             }
           },
-          "description": "Commit activity over the last 30 days",
-          "id": 7,
+          "description": "Open vs closed incident counts over the most recent 90 days",
+          "id": 4,
           "links": [],
-          "title": "Commit Activity",
+          "title": "Incident Trend",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -569,27 +460,110 @@
                     "mode": "palette-classic"
                   },
                   "custom": {
-                    "drawStyle": "bars",
-                    "fillOpacity": 80,
-                    "lineWidth": 1,
-                    "axisLabel": "Commits",
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "Count",
                     "axisPlacement": "auto",
-                    "stacking": { "group": "A", "mode": "none" }
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 20,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
                   },
-                  "noValue": "No data"
+                  "noValue": "No data",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  }
                 },
-                "overrides": []
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Open"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "orange",
+                          "mode": "fixed"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Closed"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "green",
+                          "mode": "fixed"
+                        }
+                      }
+                    ]
+                  }
+                ]
               },
               "options": {
-                "tooltip": { "mode": "single", "sort": "none" },
-                "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true }
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
+                }
               }
             },
             "version": "13.0.1"
           }
         }
       },
-      "github-pull-requests": {
+      "panel-12": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -601,67 +575,65 @@
                   "spec": {
                     "hidden": false,
                     "query": {
-                      "datasource": {
-                        "name": "GitHub",
-                        "type": "grafana-github-datasource"
-                      },
-                      "group": "github",
+                      "group": "",
                       "kind": "DataQuery",
-                      "spec": {
-                        "queryType": "Pull_Requests",
-                        "owner": "dermotcanniffe",
-                        "repository": "githubSpiraSyncRepo",
-                        "timeField": "CreatedAt"
-                      },
+                      "spec": {},
                       "version": "v0"
                     },
                     "refId": "A"
                   }
                 }
               ],
-              "queryOptions": {
-                "timeRange": {
-                  "from": "now-30d",
-                  "to": "now"
-                }
-              },
+              "queryOptions": {},
               "transformations": []
             }
           },
-          "description": "Open and merged pull request counts",
-          "id": 8,
+          "description": "",
+          "id": 12,
           "links": [],
-          "title": "Pull Requests",
+          "title": "New panel",
           "vizConfig": {
-            "group": "stat",
+            "group": "table",
             "kind": "VizConfig",
             "spec": {
               "fieldConfig": {
                 "defaults": {
-                  "color": {
-                    "mode": "palette-classic"
+                  "custom": {
+                    "align": "auto",
+                    "cellOptions": {
+                      "type": "auto"
+                    },
+                    "footer": {
+                      "reducers": []
+                    },
+                    "inspect": false
                   },
-                  "noValue": "No data"
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  }
                 },
                 "overrides": []
               },
               "options": {
-                "reduceOptions": {
-                  "calcs": ["count"],
-                  "fields": "",
-                  "values": false
-                },
-                "colorMode": "value",
-                "graphMode": "area",
-                "justifyMode": "auto",
-                "textMode": "auto"
+                "cellHeight": "sm",
+                "showHeader": true
               }
             },
             "version": "13.0.1"
           }
         }
       },
-      "github-issues": {
+      "release-progress": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -674,16 +646,188 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "GitHub",
-                        "type": "grafana-github-datasource"
+                        "name": "Spira-OData"
                       },
-                      "group": "github",
+                      "group": "infinity",
                       "kind": "DataQuery",
                       "spec": {
-                        "queryType": "Issues",
-                        "owner": "dermotcanniffe",
-                        "repository": "githubSpiraSyncRepo",
-                        "timeField": "CreatedAt"
+                        "columns": [
+                          {
+                            "selector": "ReleaseId",
+                            "text": "ReleaseId",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "Name",
+                            "text": "Release",
+                            "type": "string"
+                          },
+                          {
+                            "selector": "ReleaseStatusId",
+                            "text": "ReleaseStatusId",
+                            "type": "number"
+                          }
+                        ],
+                        "format": "table",
+                        "parser": "backend",
+                        "source": "url",
+                        "type": "json",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Releases"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "Spira-OData"
+                      },
+                      "group": "infinity",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "RequirementId",
+                            "text": "RequirementId",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "ReleaseId",
+                            "text": "ReleaseId",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "RequirementStatusId",
+                            "text": "RequirementStatusId",
+                            "type": "number"
+                          }
+                        ],
+                        "format": "table",
+                        "parser": "backend",
+                        "source": "url",
+                        "type": "json",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Requirements"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Percentage of requirements in completed status per active release",
+          "id": 5,
+          "links": [],
+          "title": "Release Progress",
+          "vizConfig": {
+            "group": "bargauge",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "continuous-GrYlRd"
+                  },
+                  "max": 100,
+                  "min": 0,
+                  "noValue": "No data",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "red",
+                        "value": 0
+                      },
+                      {
+                        "color": "orange",
+                        "value": 25
+                      },
+                      {
+                        "color": "yellow",
+                        "value": 50
+                      },
+                      {
+                        "color": "green",
+                        "value": 75
+                      }
+                    ]
+                  },
+                  "unit": "percent"
+                },
+                "overrides": []
+              },
+              "options": {
+                "displayMode": "gradient",
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "maxVizHeight": 300,
+                "minVizHeight": 16,
+                "minVizWidth": 8,
+                "namePlacement": "auto",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": true
+                },
+                "showUnfilled": true,
+                "sizing": "auto",
+                "valueMode": "color"
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "requirements-status": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "Spira-OData"
+                      },
+                      "group": "infinity",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "RequirementId",
+                            "text": "RequirementId",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "RequirementStatusId",
+                            "text": "RequirementStatusId",
+                            "type": "number"
+                          }
+                        ],
+                        "format": "table",
+                        "parser": "backend",
+                        "source": "url",
+                        "type": "json",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Requirements"
                       },
                       "version": "v0"
                     },
@@ -695,12 +839,12 @@
               "transformations": []
             }
           },
-          "description": "Open issues in the repository",
-          "id": 9,
+          "description": "Breakdown of requirements by status (Requested, In Progress, Developed, Tested)",
+          "id": 2,
           "links": [],
-          "title": "Open Issues",
+          "title": "Requirements Status",
           "vizConfig": {
-            "group": "stat",
+            "group": "piechart",
             "kind": "VizConfig",
             "spec": {
               "fieldConfig": {
@@ -708,20 +852,135 @@
                   "color": {
                     "mode": "palette-classic"
                   },
+                  "custom": {
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  },
                   "noValue": "No data"
                 },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byValue",
+                      "options": {
+                        "op": "eq",
+                        "value": 1
+                      }
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Requested"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byValue",
+                      "options": {
+                        "op": "eq",
+                        "value": 2
+                      }
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "In Progress"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byValue",
+                      "options": {
+                        "op": "eq",
+                        "value": 5
+                      }
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Developed"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byValue",
+                      "options": {
+                        "op": "eq",
+                        "value": 7
+                      }
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Tested"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "list",
+                  "placement": "right",
+                  "showLegend": true
+                },
+                "pieType": "pie",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": true
+                },
+                "sort": "desc",
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "spira-section-header": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 1,
+          "links": [],
+          "title": "Project Health (Spira)",
+          "vizConfig": {
+            "group": "text",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {},
                 "overrides": []
               },
               "options": {
-                "reduceOptions": {
-                  "calcs": ["count"],
-                  "fields": "",
-                  "values": false
+                "code": {
+                  "language": "plaintext",
+                  "showLineNumbers": false,
+                  "showMiniMap": false
                 },
-                "colorMode": "value",
-                "graphMode": "none",
-                "justifyMode": "auto",
-                "textMode": "auto"
+                "content": "## Project Health (Spira)\nRequirements coverage, testing progress, incident trends, and release status from Spira OData.",
+                "mode": "markdown"
               }
             },
             "version": "13.0.1"
@@ -752,8 +1011,187 @@
                 "overrides": []
               },
               "options": {
-                "mode": "markdown",
-                "content": "## Supplementary Context\nAdditional external data sources demonstrating Grafana's multi-source aggregation capability."
+                "code": {
+                  "language": "plaintext",
+                  "showLineNumbers": false,
+                  "showMiniMap": false
+                },
+                "content": "## Supplementary Context\nAdditional external data sources demonstrating Grafana's multi-source aggregation capability.",
+                "mode": "markdown"
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
+      "test-execution": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "Spira-OData"
+                      },
+                      "group": "infinity",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "TestRunId",
+                            "text": "TestRunId",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "ExecutionStatusId",
+                            "text": "ExecutionStatusId",
+                            "type": "number"
+                          }
+                        ],
+                        "format": "table",
+                        "parser": "backend",
+                        "source": "url",
+                        "type": "json",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/TestRuns"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Breakdown of test run results by execution status (Passed, Failed, Blocked, Not Run)",
+          "id": 3,
+          "links": [],
+          "title": "Test Execution Results",
+          "vizConfig": {
+            "group": "piechart",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  },
+                  "noValue": "No data"
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byValue",
+                      "options": "1"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Failed"
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "red",
+                          "mode": "fixed"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byValue",
+                      "options": "2"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Passed"
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "green",
+                          "mode": "fixed"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byValue",
+                      "options": "3"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Not Run"
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "gray",
+                          "mode": "fixed"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byValue",
+                      "options": "5"
+                    },
+                    "properties": [
+                      {
+                        "id": "displayName",
+                        "value": "Blocked"
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "orange",
+                          "mode": "fixed"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "displayLabels": [
+                  "percent"
+                ],
+                "legend": {
+                  "displayMode": "list",
+                  "placement": "right",
+                  "showLegend": true
+                },
+                "pieType": "pie",
+                "reduceOptions": {
+                  "calcs": [],
+                  "fields": "/^ExecutionStatusId$/",
+                  "values": true
+                },
+                "sort": "desc",
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
             },
             "version": "13.0.1"
@@ -773,22 +1211,33 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "Weather-API",
-                        "type": "yesoreyeram-infinity-datasource"
+                        "name": "Weather-API"
                       },
                       "group": "infinity",
                       "kind": "DataQuery",
                       "spec": {
-                        "type": "json",
+                        "columns": [
+                          {
+                            "selector": "main.temp",
+                            "text": "Temperature (°C)",
+                            "type": "number"
+                          },
+                          {
+                            "selector": "weather.0.description",
+                            "text": "Condition",
+                            "type": "string"
+                          },
+                          {
+                            "selector": "main.humidity",
+                            "text": "Humidity (%)",
+                            "type": "number"
+                          }
+                        ],
+                        "format": "table",
                         "parser": "backend",
                         "source": "url",
-                        "url": "https://api.openweathermap.org/data/2.5/weather?q=Dublin&units=metric",
-                        "format": "table",
-                        "columns": [
-                          { "selector": "main.temp", "text": "Temperature (°C)", "type": "number" },
-                          { "selector": "weather.0.description", "text": "Condition", "type": "string" },
-                          { "selector": "main.humidity", "text": "Humidity (%)", "type": "number" }
-                        ]
+                        "type": "json",
+                        "url": "https://api.openweathermap.org/data/2.5/weather?q=Dublin\u0026units=metric"
                       },
                       "version": "v0"
                     },
@@ -813,14 +1262,39 @@
                   "color": {
                     "mode": "palette-classic"
                   },
-                  "noValue": "No data"
+                  "custom": {
+                    "align": "auto",
+                    "cellOptions": {
+                      "type": "auto"
+                    },
+                    "footer": {
+                      "reducers": []
+                    },
+                    "inspect": false
+                  },
+                  "noValue": "No data",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  }
                 },
                 "overrides": []
               },
               "options": {
-                "showHeader": true,
                 "cellHeight": "sm",
-                "footer": { "show": false }
+                "footer": {
+                  "show": false
+                },
+                "showHeader": true
               }
             },
             "version": "13.0.1"
@@ -974,11 +1448,37 @@
               "x": 0,
               "y": 33
             }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-12"
+              },
+              "height": 8,
+              "width": 12,
+              "x": 12,
+              "y": 33
+            }
           }
         ]
       }
     },
-    "links": [],
+    "links": [
+      {
+        "asDropdown": false,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": true,
+        "title": "Source (GitHub)",
+        "tooltip": "View source file in repository",
+        "type": "link",
+        "url": "https://github.com/dermotcanniffe/SpiraCombinedGrafanaDashboard/blob/main/dashboards/new-dashboard-2026-08-27-pql1i.json"
+      }
+    ],
     "liveNow": false,
     "preferences": {
       "layout": {
@@ -989,7 +1489,13 @@
       }
     },
     "preload": false,
-    "tags": ["spira", "lifecycle", "poc", "github", "weather"],
+    "tags": [
+      "spira",
+      "lifecycle",
+      "poc",
+      "github",
+      "weather"
+    ],
     "timeSettings": {
       "autoRefresh": "5m",
       "autoRefreshIntervals": [
