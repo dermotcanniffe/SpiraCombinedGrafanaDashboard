@@ -13,7 +13,7 @@
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
+          "name": "Annotations \u0026 Alerts",
           "query": {
             "datasource": {
               "name": "-- Grafana --"
@@ -379,14 +379,19 @@
                         "format": "as-is",
                         "global_query_id": "",
                         "parser": "backend",
-                        "root_selector": "value",
+                        "root_selector": "value[PROJECT_ID = 33]",
                         "source": "url",
                         "type": "json",
                         "url": "https://internal-dermot.spiraservice.net/api/odata/Incidents",
                         "url_options": {
                           "data": "",
                           "method": "GET",
-                          "params": []
+                          "params": [
+                            {
+                              "key": "$filter",
+                              "value": "PROJECT_ID eq 33"
+                            }
+                          ]
                         }
                       },
                       "version": "v0"
@@ -735,7 +740,12 @@
                         "url_options": {
                           "data": "",
                           "method": "GET",
-                          "params": []
+                          "params": [
+                            {
+                              "key": "$filter",
+                              "value": "PROJECT_ID eq 33"
+                            }
+                          ]
                         }
                       },
                       "version": "v0"
@@ -823,7 +833,12 @@
                         "url_options": {
                           "data": "",
                           "method": "GET",
-                          "params": []
+                          "params": [
+                            {
+                              "key": "$filter",
+                              "value": "PROJECT_ID eq 33"
+                            }
+                          ]
                         }
                       },
                       "version": "v0"
@@ -985,7 +1000,12 @@
                         "url_options": {
                           "data": "",
                           "method": "GET",
-                          "params": []
+                          "params": [
+                            {
+                              "key": "$filter",
+                              "value": "PROJECT_ID eq 33"
+                            }
+                          ]
                         }
                       },
                       "version": "v0"
