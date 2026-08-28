@@ -710,6 +710,201 @@
           }
         }
       },
+      "panel-15": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "bfo9q9z2bl1xcb"
+                      },
+                      "group": "yesoreyeram-infinity-datasource",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "columns": [],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "spiraProducts",
+                        "parser": "backend",
+                        "root_selector": "value",
+                        "source": "url",
+                        "type": "json",
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Incidents",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "$filter",
+                              "value": "PROJECT_ID eq 33"
+                            },
+                            {
+                              "key": "$select",
+                              "value": "INCIDENT_ID,CREATION_DATE"
+                            }
+                          ]
+                        }
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "A"
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "query": {
+                      "datasource": {
+                        "name": "efwgcs2lgghdse"
+                      },
+                      "group": "grafana-github-datasource",
+                      "kind": "DataQuery",
+                      "spec": {
+                        "options": {
+                          "gitRef": "main"
+                        },
+                        "owner": "dermotcanniffe",
+                        "queryType": "Commits",
+                        "repository": "githubSpiraSyncRepo"
+                      },
+                      "version": "v0"
+                    },
+                    "refId": "B"
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": [
+                {
+                  "group": "groupBy",
+                  "kind": "Transformation",
+                  "spec": {
+                    "filter": {
+                      "id": "byRefId",
+                      "options": "/^(?:B)$/"
+                    },
+                    "options": {
+                      "fields": {
+                        "committed_at": {
+                          "aggregations": [],
+                          "operation": "groupby"
+                        },
+                        "id": {
+                          "aggregations": [
+                            "count"
+                          ],
+                          "operation": "aggregate"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "group": "groupBy",
+                  "kind": "Transformation",
+                  "spec": {
+                    "filter": {
+                      "id": "byRefId",
+                      "options": "/^(?:A)$/"
+                    },
+                    "options": {
+                      "fields": {
+                        "A CREATION_DATE": {
+                          "aggregations": [],
+                          "operation": "groupby"
+                        },
+                        "A INCIDENT_ID": {
+                          "aggregations": [
+                            "count"
+                          ],
+                          "operation": "aggregate"
+                        },
+                        "CREATION_DATE": {
+                          "aggregations": [],
+                          "operation": "groupby"
+                        },
+                        "INCIDENT_ID": {
+                          "aggregations": [
+                            "count"
+                          ],
+                          "operation": "aggregate"
+                        },
+                        "commits id": {
+                          "aggregations": [
+                            "count"
+                          ],
+                          "operation": "aggregate"
+                        },
+                        "committed_at": {
+                          "aggregations": [],
+                          "operation": "groupby"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "description": "",
+          "id": 15,
+          "links": [],
+          "title": "Defect Density vs Velocity",
+          "vizConfig": {
+            "group": "table",
+            "kind": "VizConfig",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "custom": {
+                    "align": "auto",
+                    "cellOptions": {
+                      "type": "auto"
+                    },
+                    "footer": {
+                      "reducers": []
+                    },
+                    "hideFrom": {
+                      "viz": false
+                    },
+                    "inspect": false
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "cellHeight": "sm",
+                "showHeader": true
+              }
+            },
+            "version": "13.0.1"
+          }
+        }
+      },
       "release-progress": {
         "kind": "Panel",
         "spec": {
@@ -1348,6 +1543,19 @@
               "width": 12,
               "x": 12,
               "y": 41
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-15"
+              },
+              "height": 8,
+              "width": 12,
+              "x": 0,
+              "y": 49
             }
           }
         ]
