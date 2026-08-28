@@ -369,9 +369,9 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "Spira-OData"
+                        "name": "bfo9q9z2bl1xcb"
                       },
-                      "group": "infinity",
+                      "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
                       "spec": {
                         "columns": [
@@ -408,9 +408,9 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "Spira-OData"
+                        "name": "bfo9q9z2bl1xcb"
                       },
-                      "group": "infinity",
+                      "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
                       "spec": {
                         "columns": [
@@ -664,9 +664,9 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "Spira-OData"
+                        "name": "bfo9q9z2bl1xcb"
                       },
-                      "group": "infinity",
+                      "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
                       "spec": {
                         "columns": [
@@ -703,9 +703,9 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "Spira-OData"
+                        "name": "bfo9q9z2bl1xcb"
                       },
-                      "group": "infinity",
+                      "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
                       "spec": {
                         "columns": [
@@ -824,9 +824,9 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "Spira-OData"
+                        "name": "bfo9q9z2bl1xcb"
                       },
-                      "group": "infinity",
+                      "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
                       "spec": {
                         "columns": [
@@ -1055,9 +1055,9 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "Spira-OData"
+                        "name": "bfo9q9z2bl1xcb"
                       },
-                      "group": "infinity",
+                      "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
                       "spec": {
                         "columns": [
@@ -1231,7 +1231,7 @@
                       "datasource": {
                         "name": "Weather-API"
                       },
-                      "group": "infinity",
+                      "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
                       "spec": {
                         "columns": [
