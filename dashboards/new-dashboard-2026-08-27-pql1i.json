@@ -43,9 +43,9 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "GitHub"
+                        "name": "efwgcs2lgghdse"
                       },
-                      "group": "github",
+                      "group": "grafana-github-datasource",
                       "kind": "DataQuery",
                       "spec": {
                         "owner": "dermotcanniffe",
@@ -162,9 +162,9 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "GitHub"
+                        "name": "efwgcs2lgghdse"
                       },
-                      "group": "github",
+                      "group": "grafana-github-datasource",
                       "kind": "DataQuery",
                       "spec": {
                         "owner": "dermotcanniffe",
@@ -247,9 +247,9 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "GitHub"
+                        "name": "efwgcs2lgghdse"
                       },
-                      "group": "github",
+                      "group": "grafana-github-datasource",
                       "kind": "DataQuery",
                       "spec": {
                         "owner": "dermotcanniffe",
@@ -1402,7 +1402,7 @@
                     "hidden": false,
                     "query": {
                       "datasource": {
-                        "name": "Weather-API"
+                        "name": "afwgfya1mul1ca"
                       },
                       "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
