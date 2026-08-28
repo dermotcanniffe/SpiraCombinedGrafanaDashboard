@@ -13,7 +13,7 @@
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations \u0026 Alerts",
+          "name": "Annotations & Alerts",
           "query": {
             "datasource": {
               "name": "-- Grafana --"
@@ -374,71 +374,24 @@
                       "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "columns": [
-                          {
-                            "selector": "IncidentId",
-                            "text": "IncidentId",
-                            "type": "number"
-                          },
-                          {
-                            "selector": "IncidentStatusId",
-                            "text": "IncidentStatusId",
-                            "type": "number"
-                          },
-                          {
-                            "selector": "CreationDate",
-                            "text": "CreationDate",
-                            "type": "timestamp"
-                          }
-                        ],
-                        "format": "timeseries",
+                        "columns": [],
+                        "filters": [],
+                        "format": "as-is",
+                        "global_query_id": "",
                         "parser": "backend",
+                        "root_selector": "value.{ \"IncidentId\": IncidentId, \"IncidentStatusId\": IncidentStatusId, \"CreationDate\": CreationDate, \"ClosedDate\": ClosedDate }",
                         "source": "url",
                         "type": "json",
-                        "url": "https://internal-dermot.spiraservice.net/api/odata/Incidents"
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Incidents",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": []
+                        }
                       },
                       "version": "v0"
                     },
                     "refId": "A"
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "query": {
-                      "datasource": {
-                        "name": "bfo9q9z2bl1xcb"
-                      },
-                      "group": "yesoreyeram-infinity-datasource",
-                      "kind": "DataQuery",
-                      "spec": {
-                        "columns": [
-                          {
-                            "selector": "IncidentId",
-                            "text": "IncidentId",
-                            "type": "number"
-                          },
-                          {
-                            "selector": "IncidentStatusId",
-                            "text": "IncidentStatusId",
-                            "type": "number"
-                          },
-                          {
-                            "selector": "ClosedDate",
-                            "text": "ClosedDate",
-                            "type": "timestamp"
-                          }
-                        ],
-                        "format": "timeseries",
-                        "parser": "backend",
-                        "source": "url",
-                        "type": "json",
-                        "url": "https://internal-dermot.spiraservice.net/api/odata/Incidents"
-                      },
-                      "version": "v0"
-                    },
-                    "refId": "B"
                   }
                 }
               ],
@@ -842,71 +795,24 @@
                       "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "columns": [
-                          {
-                            "selector": "ReleaseId",
-                            "text": "ReleaseId",
-                            "type": "number"
-                          },
-                          {
-                            "selector": "Name",
-                            "text": "Release",
-                            "type": "string"
-                          },
-                          {
-                            "selector": "ReleaseStatusId",
-                            "text": "ReleaseStatusId",
-                            "type": "number"
-                          }
-                        ],
-                        "format": "table",
+                        "columns": [],
+                        "filters": [],
+                        "format": "as-is",
+                        "global_query_id": "",
                         "parser": "backend",
+                        "root_selector": "value.{ \"ReleaseId\": ReleaseId, \"Name\": Name, \"ReleaseStatusId\": ReleaseStatusId }",
                         "source": "url",
                         "type": "json",
-                        "url": "https://internal-dermot.spiraservice.net/api/odata/Releases"
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Releases",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": []
+                        }
                       },
                       "version": "v0"
                     },
                     "refId": "A"
-                  }
-                },
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "query": {
-                      "datasource": {
-                        "name": "bfo9q9z2bl1xcb"
-                      },
-                      "group": "yesoreyeram-infinity-datasource",
-                      "kind": "DataQuery",
-                      "spec": {
-                        "columns": [
-                          {
-                            "selector": "RequirementId",
-                            "text": "RequirementId",
-                            "type": "number"
-                          },
-                          {
-                            "selector": "ReleaseId",
-                            "text": "ReleaseId",
-                            "type": "number"
-                          },
-                          {
-                            "selector": "RequirementStatusId",
-                            "text": "RequirementStatusId",
-                            "type": "number"
-                          }
-                        ],
-                        "format": "table",
-                        "parser": "backend",
-                        "source": "url",
-                        "type": "json",
-                        "url": "https://internal-dermot.spiraservice.net/api/odata/Requirements"
-                      },
-                      "version": "v0"
-                    },
-                    "refId": "B"
                   }
                 }
               ],
@@ -1002,23 +908,20 @@
                       "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "columns": [
-                          {
-                            "selector": "RequirementId",
-                            "text": "RequirementId",
-                            "type": "number"
-                          },
-                          {
-                            "selector": "RequirementStatusId",
-                            "text": "RequirementStatusId",
-                            "type": "number"
-                          }
-                        ],
-                        "format": "table",
+                        "columns": [],
+                        "filters": [],
+                        "format": "as-is",
+                        "global_query_id": "",
                         "parser": "backend",
+                        "root_selector": "value.{ \"RequirementId\": RequirementId, \"RequirementStatusId\": RequirementStatusId }",
                         "source": "url",
                         "type": "json",
-                        "url": "https://internal-dermot.spiraservice.net/api/odata/Requirements"
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/Requirements",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": []
+                        }
                       },
                       "version": "v0"
                     },
@@ -1233,23 +1136,20 @@
                       "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "columns": [
-                          {
-                            "selector": "TestRunId",
-                            "text": "TestRunId",
-                            "type": "number"
-                          },
-                          {
-                            "selector": "ExecutionStatusId",
-                            "text": "ExecutionStatusId",
-                            "type": "number"
-                          }
-                        ],
-                        "format": "table",
+                        "columns": [],
+                        "filters": [],
+                        "format": "as-is",
+                        "global_query_id": "",
                         "parser": "backend",
+                        "root_selector": "value.{ \"TestRunId\": TestRunId, \"ExecutionStatusId\": ExecutionStatusId }",
                         "source": "url",
                         "type": "json",
-                        "url": "https://internal-dermot.spiraservice.net/api/odata/TestRuns"
+                        "url": "https://internal-dermot.spiraservice.net/api/odata/TestRuns",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": []
+                        }
                       },
                       "version": "v0"
                     },
@@ -1407,28 +1307,25 @@
                       "group": "yesoreyeram-infinity-datasource",
                       "kind": "DataQuery",
                       "spec": {
-                        "columns": [
-                          {
-                            "selector": "main.temp",
-                            "text": "Temperature (°C)",
-                            "type": "number"
-                          },
-                          {
-                            "selector": "weather.0.description",
-                            "text": "Condition",
-                            "type": "string"
-                          },
-                          {
-                            "selector": "main.humidity",
-                            "text": "Humidity (%)",
-                            "type": "number"
-                          }
-                        ],
+                        "columns": [],
+                        "filters": [],
                         "format": "table",
+                        "global_query_id": "",
                         "parser": "backend",
+                        "root_selector": "",
                         "source": "url",
                         "type": "json",
-                        "url": "https://api.openweathermap.org/data/2.5/weather?q=Dublin\u0026units=metric"
+                        "url": "https://api.openweathermap.org/data/2.5/weather",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET",
+                          "params": [
+                            {
+                              "key": "q",
+                              "value": "Dublin"
+                            }
+                          ]
+                        }
                       },
                       "version": "v0"
                     },
